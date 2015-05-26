@@ -16,6 +16,7 @@ Options:
 --secret, -s	An OpenTok API Secret
 --role, -r	Optional role to assign to the token, one of moderator, publisher or subscriber (moderator by default)
 --expires, -e	Optional expire time for the token in milliseconds (30 days from now by default) (integer)
+--p2p, -p	Whether this session should be a relayed (p2p) session or a routed session ("true" or "false", "false" by default)
 ```
 
 Example: `opentok-cli -a <APIKEY> -s <API_SECRET>`
