@@ -1,0 +1,18 @@
+{
+  "name": "opentok-cli",
+  "version": "0.0.1",
+  "description": "CLI to generate a sessionId and token given an apiKey and secret",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "opentok-cli": "./cmd.js"
+  },
+  "author": "Adam Ullman <adam@tokbox.com>",
+  "license": "MIT",
+  "dependencies": {
+    "args": "0.0.3",
+    "opentok": "^2.2.5"
+  }
+}
