@@ -1,11 +1,12 @@
 {
   "name": "opentok-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "CLI to generate a sessionId and token given an apiKey and secret",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "preferGlobal": true,
   "bin": {
     "opentok-cli": "./cmd.js"
   },
