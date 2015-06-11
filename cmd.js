@@ -77,7 +77,7 @@ function outputResults(sessionId, token) {
   console.info('sessionId: ', sessionId);
   console.info('token: ', token);
   if (opts.code) {
-    console.info('');
+    console.info('\n// Sample code');
     console.info('var session = OT.initSession(\'' + apiKey + '\', \'' + sessionId + '\');');
     console.info('session.on(\'streamCreated\', function(event) {\n' +
       '  session.subscribe(event.stream, function(err) {\n' +
