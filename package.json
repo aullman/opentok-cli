@@ -1,6 +1,6 @@
 {
   "name": "opentok-cli",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "CLI to generate a sessionId and token given an apiKey and secret",
   "main": "index.js",
   "scripts": {
