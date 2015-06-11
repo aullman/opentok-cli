@@ -24,12 +24,21 @@ var args = require('args'),
     shortName: 'p',
     type: 'bool',
     help: 'Whether this session should be a relayed (p2p) session or a routed session'
+  }, {
+    name: 'sessionId',
+    shortName: 'i',
+    help: 'Optional sessionId parameter to generate a token for'
+  }, {
+    name: 'code',
+    shortName: 'c',
+    type: 'bool',
+    help: 'Optional whether to output a code snippet'
   }]),
   opts = args.parser(process.argv).parse(options),
   OpenTok = require('opentok'),
   apiKey = opts.apikey,
   secret = opts.secret,
-  session = opts.session;
+  sessionId = opts.sessionId;
 
 if (!apiKey || !secret) {
   errorMessage();
@@ -37,21 +46,50 @@ if (!apiKey || !secret) {
 }
 
 var opentok = new OpenTok(apiKey, secret);
-opentok.createSession({
-  mediaMode: opts.p2p ? 'relayed' : 'routed'
-}, function(err, session) {
-  if (err) {
-    errorMessage(err);
-    return;
-  }
-  var token = session.generateToken({
+
+if (!sessionId) {
+  createSessionId(generateToken);
+} else {
+  generateToken(sessionId);
+}
+
+function createSessionId(cb) {
+  opentok.createSession({
+    mediaMode: opts.p2p ? 'relayed' : 'routed'
+  }, function (err, session) {
+    if (err) {
+      errorMessage(err);
+    } else {
+      cb(session.sessionId);
+    }
+  });
+}
+
+function generateToken(sessionId) {
+  var token = opentok.generateToken(sessionId, {
     role: opts.role,
     expireTime: opts.expires || (new Date().getTime() / 1000) + (30 * 24 * 60 * 60), // in 30 days
   });
+  outputResults(sessionId, token);
+}
 
-  console.info('sessionId: ', session.sessionId);
+function outputResults(sessionId, token) {
+  console.info('sessionId: ', sessionId);
   console.info('token: ', token);
-});
+  if (opts.code) {
+    console.info('');
+    console.info('var session = OT.initSession(\'' + apiKey + '\', \'' + sessionId + '\');');
+    console.info('session.on(\'streamCreated\', function(event) {\n' +
+      '  session.subscribe(event.stream, function(err) {\n' +
+        '    if (err) alert(err.message);\n' +
+      '  });\n' +
+    '});\n');
+    console.info('session.connect(\'' + token + '\', function(err) {\n' +
+      '  if (err) alert(err.message);\n' +
+      '  session.publish();\n' +
+    '});\n');
+  }
+}
 
 
 function errorMessage(err) {
