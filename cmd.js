@@ -85,8 +85,11 @@ function outputResults(sessionId, token) {
       '  });\n' +
     '});\n');
     console.info('session.connect(\'' + token + '\', function(err) {\n' +
-      '  if (err) alert(err.message);\n' +
-      '  session.publish();\n' +
+      '  if (err) {\n' +
+      '    alert(err.message);\n' +
+      '  } else {\n' +
+      '    session.publish(function(err) { if (err) alert(err.message) });\n' +
+      '  }\n' +
     '});\n');
   }
 }
