@@ -33,6 +33,11 @@ var args = require('args'),
     shortName: 'c',
     type: 'bool',
     help: 'Optional whether to output a code snippet'
+  }, {
+    name: 'env',
+    shortName: 'v',
+    defaultValue: 'prod',
+    help: 'Optional environment parameter "prod", "dev", "rel" or API URL'
   }]),
   opts = args.parser(process.argv).parse(options),
   OpenTok = require('opentok'),
@@ -45,7 +50,24 @@ if (!apiKey || !secret) {
   return;
 }
 
-var opentok = new OpenTok(apiKey, secret);
+var opentok;
+if (opts.env !== 'prod') {
+  var apiUrl;
+  switch (opts.env) {
+    case 'dev':
+      apiUrl = 'https://anvil-tbdev.opentok.com';
+    break;
+    case 'rel':
+      apiUrl = 'https://anvil-tbrel.opentok.com';
+    break;
+    default:
+      apiUrl = opts.env;
+    break;
+  }
+  opentok = new OpenTok(apiKey, secret, apiUrl);
+} else {
+  opentok = new OpenTok(apiKey, secret);
+}
 
 if (!sessionId) {
   createSessionId(generateToken);

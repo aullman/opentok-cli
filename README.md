@@ -19,6 +19,7 @@ Options:
 --p2p, -p	Whether this session should be a relayed (p2p) session or a routed session ("true" or "false", "false" by default)
 --sessionId, -i	Optional sessionId parameter to generate a token for
 --code, -c	Optional whether to output a code snippet ("true" or "false", "false" by default)
+--env, -v	Optional environment parameter "prod", "dev", "rel" or API URL (prod by default)
 ```
 
 Example: `opentok-cli -a <APIKEY> -s <API_SECRET>`
